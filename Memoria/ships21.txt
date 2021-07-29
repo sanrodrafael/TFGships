@@ -1,0 +1,14 @@
+Se juntan las clases de ShipController y ShipAgeng en un única ShipControllerAgent.
+Atributos y parámetros ajustados para este cambio en todas las clases.
+Se añaden direfencias en las colisiones.
+Dependiendo de contra qué choque y del estado de la bandera se reparten bonificadores y penalizadores.
+Naves tienen bonificador existencial, que crece cuando se aproximan al objetivo actual, bandera si no la tienen, base aliada si la tienen.
+No tener la bandera genera un penalizador existencial al equipo aliado.
+Tener la bandera supone un bonificador existencial al equipo aliado y un penalizador existencial al equipo enemigo.
+
+Adicionalmente, se comienza a comentar las clases de C#.
+
+El equipo no es capaz de llevar la bandera enemiga a su base con casi el doble de tiempo de entrenamiento.
+La nave que lleva la bandera no vuelve a su base, se queda quieta o dando vueltas.
+Se ven algunos problemas con los disparos. Arreglado para versiones posteriores, desemparentar el disparo de la nave.
+El bonificador existencial y el bonificador por disparar pueden haber alterado las percepciones del agente.

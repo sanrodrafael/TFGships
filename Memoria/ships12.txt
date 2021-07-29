@@ -1,0 +1,9 @@
+Los disparos están bugueados y solo funcionan al principio.
+No se activa el disparador al ser destruida la nave, por tanto si está desactivado al morir, deja de poder disparar.
+Disparo arreglado para futuras versiones.
+Si el disparo acierta a un enemigo, la nave que dispara gana un punto.
+Las naves pierden un punto por ser destruidas, si llevaban bandera el equipo también pierde un punto.
+Disparos y destrucción de naves poco especificada hasta esta versión, mejora en posteriores.
+Las naves tienen un penalizador existencial que decrece según se acercan a la bandera enemiga.
+Las naves tienen un bonificador existencial si tienen la bandera, que crece según se acercan a la base aliada.
+ShipController y ShipAgent están separados, son juntados en ShipControllerAgent en futuras versiones.

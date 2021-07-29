@@ -1,0 +1,30 @@
+{
+    "Ship": {
+        "elo": 1133.2418324272649,
+        "checkpoints": [
+            {
+                "steps": 21031,
+                "file_path": "results\\ships02\\Ship\\Ship-21031.onnx",
+                "reward": -0.9473684210526315,
+                "creation_time": 1623700587.2804964,
+                "auxillary_file_paths": [
+                    "results\\ships02\\Ship\\Ship-21031.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 21031,
+            "file_path": "results\\ships02\\Ship.onnx",
+            "reward": -0.9473684210526315,
+            "creation_time": 1623700587.2804964,
+            "auxillary_file_paths": [
+                "results\\ships02\\Ship\\Ship-21031.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.7.0+cu110"
+    }
+}
