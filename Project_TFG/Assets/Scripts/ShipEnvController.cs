@@ -45,12 +45,12 @@ public class ShipEnvController : MonoBehaviour
             if (item.team == "Blue")
             {
                 blueTeam.RegisterAgent(item.ship);
-                item.ship.setTeams(blueTeam, redTeam);
+                item.ship.SetTeams(blueTeam, redTeam);
             }
             else if (item.team == "Red")
             {
                 redTeam.RegisterAgent(item.ship);
-                item.ship.setTeams(redTeam, blueTeam);
+                item.ship.SetTeams(redTeam, blueTeam);
             }
         }
     }
@@ -81,19 +81,19 @@ public class ShipEnvController : MonoBehaviour
         ship.tf.SetPositionAndRotation(ship.iPosition, ship.iRotation);
         ship.Rb.velocity = Vector3.zero;
         ship.Rb.angularVelocity = Vector3.zero;
-        ship.ship.SetWPCD(true);
+        //ship.ship.SetWPCD(true);
 
         ship.tf.gameObject.SetActive(true);
 
         if (ship.team == "Blue")
         {
             blueTeam.RegisterAgent(ship.ship);
-            ship.ship.setTeams(blueTeam, redTeam);
+            ship.ship.SetTeams(blueTeam, redTeam);
         }
         else if (ship.team == "Red")
         {
             redTeam.RegisterAgent(ship.ship);
-            ship.ship.setTeams(redTeam, blueTeam);
+            ship.ship.SetTeams(redTeam, blueTeam);
         }
     }
 

@@ -1,0 +1,24 @@
+Primer gran grupo desde la vuelta tras Finlandia.
+Grupo entrenado hasta los 50M y apenas sabe que hay que coger la bandera.
+Se redujo retocaron diversas partes del yaml y el código.
+
+El código:
+Se han desactivado por completo los disparos y su funcionalidad,
+no había forma de incluirlos en las observaciones que no requiriera pasarle al agente la posición de todo.
+Puntuaciones en general reducidas en 100, para que la "victoria", llevar la bandera a tu base sea 1 en vez de 100.
+
+El yaml:
+batch size ha sido reducido significativamente comparado con el ejemplo del soccer ya que no uso variables continuas.
+Aumentado el swap steps para mayor constancia en el oponente, sigue siendo lo bastante bajo para entrenar de forma eficiente.
+Reducido el learning_rate al minimo, esperaba estabilizar las spikes en el entrenamiento del agente.
+Posiblemente un error viendo los resultados, o falta de ellos, del entrenamiento.
+
+La curva del entrenamiento no se ve muy bonita, haciendo review de los casos anteriores, voy a cambiar el learning rate a un valor normal
+y a mover las rewards a como estaban en ships12.
+El archivo de ships12 que hice no me dice las rewasds del equipo, pero justo después fue cuando mezclé las clases de las naves y el agente,
+así que puedo ver en las viejas clases que guardé cuál era la distribución.
+Al final, las naves tienen penalizador hasta coger la bandera y bonificador cuando la cogen,
+el equipo aliado tiene bonificador cunado una de sus naves la tiene y el enemigo tiene penalizador cuando la tiene.
+Los equipos sin bandera tienen penalizador.
+Voy a probar a dar valores fijos en vez de asignar valores según la distancia al objetivo.
+Aumento del elo de 1200 a 2000, que luego siempre se me pone negativo.

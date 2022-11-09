@@ -1,0 +1,66 @@
+{
+    "Ship": {
+        "checkpoints": [
+            {
+                "steps": 48499919,
+                "file_path": "results\\ships101\\Ship\\Ship-48499919.onnx",
+                "reward": 0.017436398158679367,
+                "creation_time": 1652872768.2085683,
+                "auxillary_file_paths": [
+                    "results\\ships101\\Ship\\Ship-48499919.pt"
+                ]
+            },
+            {
+                "steps": 48999511,
+                "file_path": "results\\ships101\\Ship\\Ship-48999511.onnx",
+                "reward": -0.009203657886852549,
+                "creation_time": 1652875450.7067266,
+                "auxillary_file_paths": [
+                    "results\\ships101\\Ship\\Ship-48999511.pt"
+                ]
+            },
+            {
+                "steps": 49499879,
+                "file_path": "results\\ships101\\Ship\\Ship-49499879.onnx",
+                "reward": 0.0063010605808813125,
+                "creation_time": 1652878075.6861584,
+                "auxillary_file_paths": [
+                    "results\\ships101\\Ship\\Ship-49499879.pt"
+                ]
+            },
+            {
+                "steps": 49999430,
+                "file_path": "results\\ships101\\Ship\\Ship-49999430.onnx",
+                "reward": 0.0036683644175354857,
+                "creation_time": 1652880769.1121187,
+                "auxillary_file_paths": [
+                    "results\\ships101\\Ship\\Ship-49999430.pt"
+                ]
+            },
+            {
+                "steps": 50000053,
+                "file_path": "results\\ships101\\Ship\\Ship-50000053.onnx",
+                "reward": 0.0021427350746105528,
+                "creation_time": 1652880769.46675,
+                "auxillary_file_paths": [
+                    "results\\ships101\\Ship\\Ship-50000053.pt"
+                ]
+            }
+        ],
+        "elo": -1.896227707550267,
+        "final_checkpoint": {
+            "steps": 50000053,
+            "file_path": "results\\ships101\\Ship.onnx",
+            "reward": 0.0021427350746105528,
+            "creation_time": 1652880769.46675,
+            "auxillary_file_paths": [
+                "results\\ships101\\Ship\\Ship-50000053.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.7.0+cu110"
+    }
+}

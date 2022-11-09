@@ -2,6 +2,6 @@ activate TFGships
 
 cd C:\Users\raego\Documents\uni\TFG\Agents
 
-mlagents-learn TFGships.yaml --run-id shipsXX
+mlagents-learn TFGships.yaml --run-id shipsXX --resume
 
 tensorboard --logdir results

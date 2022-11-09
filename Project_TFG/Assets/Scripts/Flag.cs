@@ -16,11 +16,6 @@ public class Flag : MonoBehaviour
         mMR = GetComponentsInChildren<MeshRenderer>();
     }
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         if (waiting && ship)
@@ -55,11 +50,11 @@ public class Flag : MonoBehaviour
         mBC.enabled = false;
         mMR[0].enabled = false;
         mMR[1].enabled = false;
-
-        yield return new WaitForSeconds(10);
-
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
+
+        yield return new WaitForSeconds(10);
+        
         mBC.enabled = true;
         mMR[0].enabled = true;
         mMR[1].enabled = true;

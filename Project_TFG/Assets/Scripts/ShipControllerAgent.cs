@@ -12,13 +12,14 @@ public class ShipControllerAgent : Agent
     private float maxSpeed = 10.0f;
     private Vector3 angleSpeed = new Vector3(0, 150, 0);
     private Flag flag = null;
-    private bool wpcd = true;
+    //private bool wpcd = true;
     private SimpleMultiAgentGroup allyTeam;
     private SimpleMultiAgentGroup enemyTeam;
     private ShipEnvController env;
+    private float rewardSize = 0.01f;
 
-    public GameObject shot;
-    public Transform shooter;
+    //public GameObject shot;
+    //public Transform shooter;
     public GameObject enemyFlag;
     public GameObject allyFlag;
     public GameObject allyBase;
@@ -31,9 +32,9 @@ public class ShipControllerAgent : Agent
             //give reward to ship and ally team, penalize enemy team, reset flag
             flag.Point();
             flag = null;
-            AddReward(10);
-            allyTeam.AddGroupReward(100);
-            enemyTeam.AddGroupReward(-10);
+            AddReward(10 * rewardSize);
+            allyTeam.AddGroupReward(100 * rewardSize);
+            enemyTeam.AddGroupReward(-10 * rewardSize);
         }
         //or if triggering the enemy flag
         else if (other.gameObject == enemyFlag)
@@ -41,16 +42,16 @@ public class ShipControllerAgent : Agent
             //give reward to ship and ally team, penalize enemy team, grab flag
             flag = other.GetComponent<Flag>();
             flag.Emparent(transform);
-            AddReward(1);
-            allyTeam.AddGroupReward(10);
-            enemyTeam.AddGroupReward(-1);
+            AddReward(1 * rewardSize);
+            allyTeam.AddGroupReward(10 * rewardSize);
+            enemyTeam.AddGroupReward(-1 * rewardSize);
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
         //if the ship is hit by a shot...
-        if (collision.gameObject.CompareTag("Shot"))
+        /*if (collision.gameObject.CompareTag("Shot"))
         {
             //...and is fired by an ally ship
             if (collision.gameObject.GetComponent<Shot>().GetShooter().CompareTag(tag))
@@ -79,20 +80,22 @@ public class ShipControllerAgent : Agent
                 collision.gameObject.GetComponent<Shot>().GetShooter().AddReward(1);
             }
         }
+        else*/
+
         //if hit by another ship while carrying the flag...
-        else if(collision.gameObject.GetComponent<ShipControllerAgent>() && flag != null)
+        if (collision.gameObject.GetComponent<ShipControllerAgent>() && flag != null)
         {
             //...and is an ally ship, reduce ally team points, penalize hitting ship
             if (collision.gameObject.CompareTag(tag))
             {
-                allyTeam.AddGroupReward(-5);
-                collision.gameObject.GetComponent<ShipControllerAgent>().AddReward(-1);
+                allyTeam.AddGroupReward(-5 * rewardSize);
+                collision.gameObject.GetComponent<ShipControllerAgent>().AddReward(-1 * rewardSize);
             }
             else //...or is an enemy ship, reduce ally team points, give enemy team points, give bonus to hitting ship
             {
-                allyTeam.AddGroupReward(-5);
-                enemyTeam.AddGroupReward(5);
-                collision.gameObject.GetComponent<ShipControllerAgent>().AddReward(2);
+                allyTeam.AddGroupReward(-5 * rewardSize);
+                enemyTeam.AddGroupReward(5 * rewardSize);
+                collision.gameObject.GetComponent<ShipControllerAgent>().AddReward(2 * rewardSize);
             }
             //drop flag
             flag.CarrierDestroyed();
@@ -106,12 +109,12 @@ public class ShipControllerAgent : Agent
             {
                 flag.CarrierDestroyed();
                 flag = null;
-                allyTeam.AddGroupReward(-1);
+                allyTeam.AddGroupReward(-1 * rewardSize);
             }
         }
 
         //reduce own points and respawn
-        AddReward(-1);
+        AddReward(-1 * rewardSize);
         env.Respawn(this);
     }
 
@@ -133,10 +136,20 @@ public class ShipControllerAgent : Agent
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         //get 1 to fire a shot
-        if (actionBuffers.DiscreteActions[0] == 1 && wpcd)
+        /*if (actionBuffers.DiscreteActions[0] == 1 && wpcd)
         {
             Firing();
             //AddReward(0.001f);
+        }*/
+
+        //get 1 to turn left and 2 to turn right
+        if (actionBuffers.DiscreteActions[0] == 1)
+        {
+            Turn(-1);
+        }
+        else if (actionBuffers.DiscreteActions[0] == 2)
+        {
+            Turn(1);
         }
 
         //get 1 to move backwards and 2 to move forward
@@ -159,31 +172,26 @@ public class ShipControllerAgent : Agent
             MLR(1);
         }
 
-        //get 1 to turn left and 2 to turn right
-        if (actionBuffers.DiscreteActions[3] == 1)
-        {
-            Turn(-1);
-        }
-        else if (actionBuffers.DiscreteActions[3] == 2)
-        {
-            Turn(1);
-        }
-
         //rewards upon action
         //if not carrying flag, existential malus to ally team and ship
-        if (!hasFlag())
+        if (!HasFlag())
         {
-            AddReward(-0.00001f * Vector3.Distance(enemyFlag.transform.position, transform.position));
+            //AddReward(-0.000001f * rewardSize * Vector3.Distance(enemyFlag.transform.position, transform.position));
             //AddReward(0.00001f * (100 - Vector3.Distance(enemyFlag.transform.position, transform.position)));
-            allyTeam.AddGroupReward(-0.00001f * Vector3.Distance(enemyFlag.transform.position, transform.position));
+            //allyTeam.AddGroupReward(-0.000001f * rewardSize * Vector3.Distance(enemyFlag.transform.position, transform.position));
+            AddReward(-0.00001f * rewardSize);
+            allyTeam.AddGroupReward(-0.00001f * rewardSize);
         }
         //if carrying flag, existential malus to enemy team and ship, bonus to ally team
         else
         {
-            AddReward(-0.00001f * Vector3.Distance(allyBase.transform.position, transform.position));
+            //AddReward(-0.000001f * rewardSize * Vector3.Distance(allyBase.transform.position, transform.position));
             //AddReward(0.00001f * (100 - Vector3.Distance(allyBase.transform.position, transform.position)));
-            allyTeam.AddGroupReward(0.0001f * (100 - Vector3.Distance(allyBase.transform.position, transform.position)));
-            enemyTeam.AddGroupReward(-0.0001f * (100 - Vector3.Distance(allyBase.transform.position, transform.position)));
+            //allyTeam.AddGroupReward(0.00001f * rewardSize * (100 - Vector3.Distance(allyBase.transform.position, transform.position)));
+            //enemyTeam.AddGroupReward(-0.00001f * rewardSize * (100 - Vector3.Distance(allyBase.transform.position, transform.position)));
+            AddReward(0.00001f * rewardSize);
+            allyTeam.AddGroupReward(0.0001f * rewardSize);
+            enemyTeam.AddGroupReward(-0.0001f * rewardSize);
         }
     }
 
@@ -210,18 +218,22 @@ public class ShipControllerAgent : Agent
         sensor.AddObservation((allyFlag.transform.position - transform.position).normalized);
 
         //weapon availability
-        sensor.AddObservation(wpcd);
+        //sensor.AddObservation(wpcd);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        int firing = 0;
+        //int firing = 0;
+        int turn = 0;
         int mfb = 0;
         int mlr = 0;
-        int turn = 0;
 
         //Space to shoot
-        if (Input.GetKey(KeyCode.Space)) firing = 1;
+        //if (Input.GetKey(KeyCode.Space)) firing = 1;
+
+        //E to turn right, Q to turn left
+        if (Input.GetKey(KeyCode.E)) turn = 2;
+        if (Input.GetKey(KeyCode.Q)) turn = 1;
 
         //W to move forwards, S for backwards
         if (Input.GetKey(KeyCode.W)) mfb = 2;
@@ -231,14 +243,10 @@ public class ShipControllerAgent : Agent
         if (Input.GetKey(KeyCode.D)) mlr = 2;
         if (Input.GetKey(KeyCode.A)) mlr = 1;
 
-        //E to turn right, Q to turn left
-        if (Input.GetKey(KeyCode.E)) turn = 2;
-        if (Input.GetKey(KeyCode.Q)) turn = 1;
-
-        actionsOut.DiscreteActions.Array[0] = firing;
+        //actionsOut.DiscreteActions.Array[0] = firing;
+        actionsOut.DiscreteActions.Array[0] = turn;
         actionsOut.DiscreteActions.Array[1] = mfb;
         actionsOut.DiscreteActions.Array[2] = mlr;
-        actionsOut.DiscreteActions.Array[3] = turn;
     }
 
     //move forward with direction>0, backwards with direction<0
@@ -261,23 +269,23 @@ public class ShipControllerAgent : Agent
     }
 
     //fire a shot and start weapon cooldown
-    public void Firing()
+    /*public void Firing()
     {
         if (wpcd)
         {
             Instantiate(shot, shooter.position, shooter.rotation, transform);
             StartCoroutine(WPCD());
         }
-    }
+    }*/
 
-    public void setTeams(SimpleMultiAgentGroup newAllyTeam, SimpleMultiAgentGroup newEnemyTeam)
+    public void SetTeams(SimpleMultiAgentGroup newAllyTeam, SimpleMultiAgentGroup newEnemyTeam)
     {
         allyTeam = newAllyTeam;
         enemyTeam = newEnemyTeam;
     }
 
     //returns true if ship has the flag, false otherwise
-    public bool hasFlag()
+    public bool HasFlag()
     {
         bool result = false;
         if (flag != null) result = true;
@@ -289,7 +297,7 @@ public class ShipControllerAgent : Agent
         env = newEnv;
     }
 
-    public void SetWPCD(bool nwpcd)
+    /*public void SetWPCD(bool nwpcd)
     {
         wpcd = nwpcd;
     }
@@ -300,6 +308,6 @@ public class ShipControllerAgent : Agent
         wpcd = false;
         yield return new WaitForSeconds(1);
         wpcd = true;
-    }
+    }*/
 
 }
