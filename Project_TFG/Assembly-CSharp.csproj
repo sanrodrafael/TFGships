@@ -56,10 +56,9 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Shot.cs" />
     <Compile Include="Assets\Scripts\ShipEnvController.cs" />
-    <Compile Include="Assets\Scripts\Flag.cs" />
     <Compile Include="Assets\Scripts\ShipControllerAgent.cs" />
+    <Compile Include="Assets\Scripts\Flag.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

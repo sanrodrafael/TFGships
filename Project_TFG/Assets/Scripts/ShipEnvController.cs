@@ -23,9 +23,7 @@ public class ShipEnvController : MonoBehaviour
     private SimpleMultiAgentGroup blueTeam;
     private SimpleMultiAgentGroup redTeam;
 
-    public int matchDuration = 180;
     public int shipRespawnTime = 10;
-
     public List<ShipInfo> ShipsList = new List<ShipInfo>();
 
     private void Awake()
@@ -55,15 +53,6 @@ public class ShipEnvController : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        foreach (var ship in ShipsList)
-        {
-            ResetShip(ship);
-        }
-        //StartCoroutine(Play());
-    }
-
     public void Respawn(ShipControllerAgent ship)
     {
         foreach (var item in ShipsList)
@@ -76,12 +65,20 @@ public class ShipEnvController : MonoBehaviour
 
     }
 
+    IEnumerator Respawn(ShipInfo ship)
+    {
+        ship.tf.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(shipRespawnTime);
+
+        ResetShip(ship);
+    }
+
     public void ResetShip(ShipInfo ship)
     {
         ship.tf.SetPositionAndRotation(ship.iPosition, ship.iRotation);
         ship.Rb.velocity = Vector3.zero;
         ship.Rb.angularVelocity = Vector3.zero;
-        //ship.ship.SetWPCD(true);
 
         ship.tf.gameObject.SetActive(true);
 
@@ -95,39 +92,5 @@ public class ShipEnvController : MonoBehaviour
             redTeam.RegisterAgent(ship.ship);
             ship.ship.SetTeams(redTeam, blueTeam);
         }
-    }
-
-    public void GameOver()
-    {
-        blueTeam.GroupEpisodeInterrupted();
-        redTeam.GroupEpisodeInterrupted();
-
-        foreach (var ship in ShipsList)
-        {
-            ResetShip(ship);
-        }
-
-        StartCoroutine(Play());
-    }
-
-    IEnumerator Respawn(ShipInfo ship)
-    {
-        ship.tf.gameObject.SetActive(false);
-
-        yield return new WaitForSeconds(shipRespawnTime);
-
-        ResetShip(ship);
-    }
-
-    IEnumerator Play()
-    {
-        foreach (var ship in ShipsList)
-        {
-            ResetShip(ship);
-        }
-
-        yield return new WaitForSeconds(matchDuration);
-
-        GameOver();
     }
 }

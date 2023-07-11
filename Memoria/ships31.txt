@@ -1,9 +1,0 @@
-Se arregla el disparo desemparentando de la nave.
-Esto causaba disparos raros al destruirse una nave mientras tenía un disparo.
-Ahora el disparo solo está emparentado al inicio para guardar la nave.
-Se desactiva la bonificación por disparar.
-Se mantienen bonificaciones y penalizaciones hacer contacto con el disparo.
-Las naves pasan a tener penalizadores existenciales dependiendo de la distancia al objetivo actual.
-Bonificadores y penalizadores existenciales grupales se mantienen.
-Se reduce considerablemente el número de nueronas en el fichero yaml.
-Se prueba primero 8 neuronas, de las 512 que tenían los anteriores.
